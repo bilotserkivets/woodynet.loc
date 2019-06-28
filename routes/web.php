@@ -11,10 +11,36 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::resource('/', 'Blog\IndexController', [
+//                                            'only' => 'index',
+//                                            'names' => [
+//                                                'index' => 'home',
+//                                            ]
+//]);
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function() {
+    Route::resource('posts', 'PostController')->names('blog.posts');
+});
+
+// Адмінка блогу
+$groupData = [
+    'namespace' => 'Blog\Admin',
+    'prefix' => 'admin/blog'
+];
+
+Route::group($groupData, function() {
+    //BlogCategory
+    $method = ['index', 'edit', 'update', 'create', 'store', 'destroy'];
+    Route::resource('categories', 'CategoryController')
+            ->only($method)
+            ->names('blog.admin.categories');
+    
+    //BlogPost
+    Route::resource('posts', 'PostController')
+            ->except('show')
+            ->names('blog.admin.posts');
+});
