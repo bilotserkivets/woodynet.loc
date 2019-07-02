@@ -11,12 +11,7 @@
 |
 */
 
-//Route::resource('/', 'Blog\IndexController', [
-//                                            'only' => 'index',
-//                                            'names' => [
-//                                                'index' => 'home',
-//                                            ]
-//]);
+
 
 Auth::routes();
 
@@ -44,3 +39,19 @@ Route::group($groupData, function() {
             ->except('show')
             ->names('blog.admin.posts');
 });
+
+Route::resource('/', 'Blog\IndexController', [
+                                            'only' => 'index',
+                                            'names' => [
+                                                'index' => 'home',
+                                            ]
+]);
+
+Route::get('/posts/{slug}', 'Blog\PostController@show')->name('posts.show');
+
+Route::resource('blog/posts', 'Blog\PostController', [
+                                            'parametres' => [
+                                              'articles' => 'alias',
+                                            ]
+    
+]);
