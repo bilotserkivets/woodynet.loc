@@ -139,7 +139,7 @@ class TariffController extends BaseController
         if($result) {
             return redirect()
             ->route('blog.admin.tariffs.index')
-            ->with(['success' => 'Запис id № [$id] успішно видалено']);
+            ->with(['success' => "Запис id № [$id] успішно видалено"]);
         } else {
             return back()->withErorrs(['msg' => 'Помилка видалення']);
         }
